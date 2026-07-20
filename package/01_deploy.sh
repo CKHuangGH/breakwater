@@ -25,7 +25,7 @@ do
     kubectl config rename-context k8s-admin-cluster$i@kubernetes cluster$i
 done
 
-sleep 5
+sleep 30
 
 while IFS= read -r ip_address; do
   scp -o StrictHostKeyChecking=no ./all_node_list root@$ip_address:/root/
@@ -38,7 +38,7 @@ while IFS= read -r ip_address; do
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/chrony.sh 2>&1 &"
 done < "all_node_list"
 
-wait
+sleep 30
 
 cluster=1
 tail -n +2 cp_node_list > cp_node_list_without_management
@@ -49,14 +49,13 @@ while read -r ip; do
 	cluster=$((cluster+1))
 done < "cp_node_list_without_management"
 
-wait
+sleep 30
 
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
   --version 1.19.5 \
   --namespace kube-system \
-  --wait \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \
   --set operator.tolerations[0].key=node-role.kubernetes.io/control-plane \
@@ -74,7 +73,6 @@ helm repo update
 helm install prom prometheus-community/kube-prometheus-stack \
   --version 87.6.0 \
   --namespace monitoring \
-  --wait \
   --create-namespace \
   --set grafana.enabled=false \
   --set alertmanager.enabled=false \
@@ -85,3 +83,5 @@ helm install prom prometheus-community/kube-prometheus-stack \
   --set prometheus.prometheusSpec.resources.requests.memory="1024Mi"
 
 cp cp_node_list_without_management ./exps/motivation/cp_node_list_without_management
+
+sleep 30

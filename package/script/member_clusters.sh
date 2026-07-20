@@ -8,7 +8,6 @@ helm repo update
 helm install cilium cilium/cilium \
   --version 1.19.5 \
   --namespace kube-system \
-  --wait \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \
   --set operator.tolerations[0].key=node-role.kubernetes.io/control-plane \
@@ -21,13 +20,13 @@ helm install cilium cilium/cilium \
   --set operator.tolerations[2].operator=Exists \
   --set operator.tolerations[2].effect=NoExecute
 
+sleep 30
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install prom prometheus-community/kube-prometheus-stack \
   --version 87.6.0 \
   --namespace monitoring \
-  --wait \
   --create-namespace \
   --set grafana.enabled=false \
   --set alertmanager.enabled=false \

@@ -40,7 +40,7 @@ subnet = networks["my_subnet"]
 cp = 1
 w1 = 1
 
-for i in range(0,2):
+for i in range(0,1):
     start = i * (cp + w1)
     virt_conf = (
         en.VMonG5kConf.from_settings(image="/home/chuang/images/debian13-k8s-large.qcow2")
@@ -48,14 +48,14 @@ for i in range(0,2):
             roles=["cp"],
             number=cp,
             undercloud=roles["role0"],
-            flavour_desc={"core": 4, "mem": 8192},
+            flavour_desc={"core": 8, "mem": 16384},
             macs=list(subnet[0].free_macs)[start:start+cp],
         )
         .add_machine(
             roles=["member"],
             number=w1,
             undercloud=roles["role0"],
-            flavour_desc={"core": 4, "mem": 8192},
+            flavour_desc={"core": 8, "mem": 16384},
             macs=list(subnet[0].free_macs)[start+cp:start+cp+w1],
         ).finalize()
     )
