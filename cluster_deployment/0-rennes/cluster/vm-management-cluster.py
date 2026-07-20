@@ -4,11 +4,11 @@ import time
 
 en.set_config(ansible_forks=100)
 
-name = "member_cluster-2_nantes"
+name = "cluster-rennes-01"
 
-clusters = "ecotype"
+clusters = "paradoxe"
 
-site = "nantes"
+site = "rennes"
 
 cp_nodes = []
 
@@ -21,7 +21,7 @@ prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 name_job = name + clusters
 
 conf = (
-    en.G5kConf.from_settings(job_type="allow_classic_ssh", job_name=name_job, walltime=duration)
+    en.G5kConf.from_settings(job_type=[], job_name=name_job, walltime=duration)
     .add_network_conf(prod_network)
     .add_network(
         id="not_linked_to_any_machine", type="slash_22", roles=["my_subnet"], site=site
@@ -40,7 +40,7 @@ subnet = networks["my_subnet"]
 cp = 1
 w1 = 1
 
-for i in range(0,2):
+for i in range(0,4):
     start = i * (cp + w1)
     virt_conf = (
         en.VMonG5kConf.from_settings(image="/home/chuang/images/debian13-k8s-large.qcow2")
@@ -48,14 +48,14 @@ for i in range(0,2):
             roles=["cp"],
             number=cp,
             undercloud=roles["role0"],
-            flavour_desc={"core": 4, "mem": 8192},
+            flavour_desc={"core": 8, "mem": 16384},
             macs=list(subnet[0].free_macs)[start:start+cp],
         )
         .add_machine(
             roles=["member"],
             number=w1,
             undercloud=roles["role0"],
-            flavour_desc={"core": 4, "mem": 8192},
+            flavour_desc={"core": 8, "mem": 16384},
             macs=list(subnet[0].free_macs)[start+cp:start+cp+w1],
         ).finalize()
     )

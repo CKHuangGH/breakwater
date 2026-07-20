@@ -3,24 +3,24 @@ set -e
 
 pids=()
 
-python3 ./cluster/vm-management-cluster.py &
-pids+=($!)
-sleep 30
+python3 ./cluster/vm-management-cluster.py
+# pids+=($!)
+# sleep 30
 
-python3 ./cluster/vm-member-cluster-1.py &
-pids+=($!)
+# python3 ./cluster/vm-member-cluster-1.py &
+# pids+=($!)
 
-python3 ./cluster/vm-member-cluster-2.py &
-pids+=($!)
+# python3 ./cluster/vm-member-cluster-2.py &
+# pids+=($!)
 
-python3 ./cluster/vm-member-cluster-3.py &
-pids+=($!)
+# python3 ./cluster/vm-member-cluster-3.py &
+# pids+=($!)
 
-echo "Waiting for all VM installation clusters..."
+# echo "Waiting for all VM installation clusters..."
 
-for pid in "${pids[@]}"; do
-    wait "$pid"
-done
+# for pid in "${pids[@]}"; do
+#     wait "$pid"
+# done
 
 echo "All VM clusters finished. Waiting 45 seconds for system stabilization..."
 

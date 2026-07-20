@@ -4,11 +4,11 @@ import time
 
 en.set_config(ansible_forks=100)
 
-name = "member_cluster-1_nantes"
+name = "cluster-rennes-01"
 
-clusters = "ecotype"
+clusters = "paradoxe"
 
-site = "nantes"
+site = "rennes"
 
 cp_nodes = []
 
@@ -21,7 +21,7 @@ prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 name_job = name + clusters
 
 conf = (
-    en.G5kConf.from_settings(job_type="allow_classic_ssh", job_name=name_job, walltime=duration)
+    en.G5kConf.from_settings(job_type=[], job_name=name_job, walltime=duration)
     .add_network_conf(prod_network)
     .add_network(
         id="not_linked_to_any_machine", type="slash_22", roles=["my_subnet"], site=site
