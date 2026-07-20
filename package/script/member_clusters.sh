@@ -6,7 +6,7 @@ kubectl config use-context cluster$number
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
-  --version 1.19.5 \
+  --version 1.19.6 \
   --namespace kube-system \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \
@@ -25,7 +25,7 @@ sleep 30
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install prom prometheus-community/kube-prometheus-stack \
-  --version 87.6.0 \
+  --version 87.17.0 \
   --namespace monitoring \
   --create-namespace \
   --set grafana.enabled=false \

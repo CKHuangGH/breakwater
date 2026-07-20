@@ -54,7 +54,7 @@ sleep 30
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
-  --version 1.19.5 \
+  --version 1.19.6 \
   --namespace kube-system \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \

@@ -22,4 +22,4 @@ do
 	cluster=$((cluster+1))
 done
 
-wait
+sleep 30
