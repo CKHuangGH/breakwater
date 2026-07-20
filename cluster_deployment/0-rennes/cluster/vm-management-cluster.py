@@ -14,7 +14,7 @@ cp_nodes = []
 
 all_vm_nodes = []
 
-duration = "3:00:00"
+duration = "03:00:00"
 
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
