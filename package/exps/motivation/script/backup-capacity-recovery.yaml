@@ -1,0 +1,25 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: OverridePolicy
+metadata:
+  name: backup-capacity-recovery
+  namespace: motivation
+spec:
+  resourceSelectors:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: frontend
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: currencyservice
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: recommendationservice
+  overrideRules:
+    - targetCluster:
+        clusterNames:
+          - cluster2
+      overriders:
+        plaintext:
+          - path: /spec/replicas
+            operator: add
+            value: 4

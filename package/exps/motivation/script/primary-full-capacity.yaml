@@ -1,0 +1,25 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: OverridePolicy
+metadata:
+  name: primary-full-capacity
+  namespace: motivation
+spec:
+  resourceSelectors:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: frontend
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: currencyservice
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: recommendationservice
+  overrideRules:
+    - targetCluster:
+        clusterNames:
+          - cluster1
+      overriders:
+        plaintext:
+          - path: /spec/replicas
+            operator: add
+            value: 4

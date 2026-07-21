@@ -40,7 +40,7 @@ subnet = networks["my_subnet"]
 cp = 1
 w1 = 1
 
-for i in range(0,2):
+for i in range(0,1):
     start = i * (cp + w1)
     virt_conf = (
         en.VMonG5kConf.from_settings(image="/home/chuang/images/debian13-k8s-large.qcow2")

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boutique-haproxy
+  namespace: motivation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: boutique-haproxy
+  template:
+    metadata:
+      labels:
+        app: boutique-haproxy
+    spec:
+      containers:
+        - name: haproxy
+          image: haproxy:3.2-alpine
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 30
+          volumeMounts:
+            - name: haproxy-config
+              mountPath: /usr/local/etc/haproxy/haproxy.cfg
+              subPath: haproxy.cfg
+            - name: haproxy-runtime
+              mountPath: /var/run/haproxy
+        - name: control
+          image: alpine/socat:1.8.0.0
+          command:
+            - /bin/sh
+            - -c
+            - sleep 7200
+          volumeMounts:
+            - name: haproxy-runtime
+              mountPath: /var/run/haproxy
+      volumes:
+        - name: haproxy-config
+          configMap:
+            name: haproxy-config
+        - name: haproxy-runtime
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: boutique-router
+  namespace: motivation
+spec:
+  selector:
+    app: boutique-haproxy
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
