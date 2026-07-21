@@ -18,9 +18,9 @@ pids+=($!)
 
 # echo "Waiting for all VM installation clusters..."
 
-# for pid in "${pids[@]}"; do
-#     wait "$pid"
-# done
+for pid in "${pids[@]}"; do
+    wait "$pid"
+done
 
 echo "All VM clusters finished. Waiting 45 seconds for system stabilization..."
 
