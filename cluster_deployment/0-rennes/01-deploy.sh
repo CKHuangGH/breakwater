@@ -37,4 +37,4 @@ for ((elapsed=0; elapsed<=total; elapsed++)); do
     printf "\r[%s%s] %3d%% | %3d sec remaining" "$bar" "$space" "$percent" "$remaining"
     sleep 1
 done
-. ./02_system_ready.sh
+. ./02-system_ready.sh

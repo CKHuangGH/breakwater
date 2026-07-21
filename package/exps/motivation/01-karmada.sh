@@ -11,9 +11,10 @@ kubectl config use-context cluster0
 
 karmadactl init
 
-for i in range(10, 0, -1):
-    print(f"\rCountdown: {i} seconds", end="", flush=True)
-    time.sleep(1)
+for i in $(seq 30 -1 1); do
+    printf "\rCountdown: %2d seconds" "${i}"
+    sleep 1
+done
 
 cluster=1
 for i in $(cat cp_node_list_without_management)
